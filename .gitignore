@@ -36,6 +36,9 @@ env/
 .idea/
 .vscode/
 
+# AI agent files
+ai_agent_files/
+
 # Data files (keep structure, ignore large files)
 src/data/raw/*.xlsx
 src/data/raw/*.csv
