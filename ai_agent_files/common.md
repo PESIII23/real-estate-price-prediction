@@ -38,7 +38,7 @@ Steps to recreate this project directory from scratch.
 
 - **All `.py` files** — created empty (no boilerplate, no docstrings, no classes).
 - **All `__init__.py` files** — created empty.
-- **`README.md`** — project overview, setup instructions, structure, and usage.
+- **`README.md`** — use the standard project README template (see section 6).
 - **`requirements.txt`** — Python dependencies (pandas, numpy, matplotlib, seaborn, openpyxl, scikit-learn).
 - **`price_prediction_model.ipynb`** — created as a blank Jupyter Notebook (no cells).
 - **`docs/`** — deliverable documents (EDA findings, ML template).
@@ -144,11 +144,79 @@ openpyxl
 scikit-learn
 ```
 
-## 6. Summary of steps in order
+## 6. `README.md` template
+
+Use the following template for `README.md`, adapting the project name, description, structure, stages, features, and tools to fit the specific project:
+
+```markdown
+# <Project Name>
+
+<One-sentence description of the project.>
+
+---
+
+## Project Structure
+
+<Tree view of src/ showing directories and files with inline comments.>
+
+---
+
+## Quick Start
+
+**1. Clone the repository:**
+git clone <repo-url>
+cd <project-name>
+
+**2. Create a virtual environment:**
+python -m venv .venv
+source .venv/bin/activate
+
+**3. Install dependencies:**
+pip install -r requirements.txt
+
+**4. Run the notebook:**
+Place the source data file in src/data/raw/, then open the notebook.
+
+---
+
+## Pipeline Stages
+
+| Stage | Description |
+|-------|-------------|
+| **1. Data Loading** | ... |
+| **2. EDA** | ... |
+| **3. Data Wrangling** | ... |
+| **4. Feature Engineering** | ... |
+| **5. Modeling** | ... |
+| **6. Evaluation** | ... |
+
+---
+
+## Key Features
+
+- **Feature 1** – Description
+- **Feature 2** – Description
+
+---
+
+## Tools & Libraries
+
+- Python 3.x+
+- List each library and its purpose
+
+---
+
+## Support
+
+- Email: pesmithiii7@gmail.com
+- Repository: [GitHub](<repo-url>)
+```
+
+## 7. Summary of steps in order
 
 1. Create the project root directory.
 2. Initialize git (`git init`).
-3. Create `README.md` with project overview, setup instructions, structure, and usage.
+3. Create `README.md` using the template from section 6, adapted for the project.
 4. Create `requirements.txt` with Python dependencies.
 5. Create `ai_agent_files/` with `common.md` and `git.md` reference docs.
 6. Create `docs/` for deliverable documents.
