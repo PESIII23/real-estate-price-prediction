@@ -209,6 +209,7 @@ Place the source data file in src/data/raw/, then open the notebook.
 ## Support
 
 - Email: pesmithiii7@gmail.com
+- Documentation: [Milestone 1]() | [Milestone 2]() | [Milestone 3]()
 - Repository: [GitHub](<repo-url>)
 ```
 

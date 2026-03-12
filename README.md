@@ -87,4 +87,5 @@ Place the source Excel file in src/data/raw/, then open src/notebooks/price_pred
 ## Support
 
 - Email: pesmithiii7@gmail.com
+- Documentation: [Milestone 1]() | [Milestone 2]() | [Milestone 3]()
 - Repository: [GitHub](https://github.com/PESIII23/real-estate-price-prediction)
