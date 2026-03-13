@@ -11,19 +11,19 @@ def clean_data(df):
     ], axis=1)
 
     df = df.rename(columns={
-        'crim': 'crime_rate_per_capita (crim)',
-        'zn': 'large_lot_zoning_ratio (zn)',
-        'indus': 'non_retail_acre_ratio (indus)',
-        'chas': 'river_boundary_flag (chas)',
-        'nox': 'nox_concentration (nox)',
-        'rm': 'avg_rooms_per_dwelling (rm)',
-        'age': 'pre_1940_housing_ratio (age)',
-        'dis': 'employment_center_distance (dis)',
-        'rad': 'radial_highway_access_idx (rad)',
-        'tax': 'property_tax_rate (tax)',
-        'ptratio': 'pupil_teacher_ratio (ptratio)',
-        'lstat': 'low_ses_population_pct (lstat)',
-        'popul': 'population_distribution (popul)'
+        'crim': 'crime_rate_per_capita_crim',
+        'zn': 'large_lot_zoning_ratio_zn',
+        'indus': 'non_retail_acre_ratio_indus',
+        'chas': 'river_boundary_flag_chas',
+        'nox': 'nox_concentration_nox',
+        'rm': 'avg_rooms_per_dwelling_rm',
+        'age': 'pre_1940_housing_ratio_age',
+        'dis': 'employment_center_distance_dis',
+        'rad': 'radial_highway_access_idx_rad',
+        'tax': 'property_tax_rate_tax',
+        'ptratio': 'pupil_teacher_ratio_ptratio',
+        'lstat': 'low_ses_population_pct_lstat',
+        'popul': 'population_distribution_popul'
     })
 
     return df
