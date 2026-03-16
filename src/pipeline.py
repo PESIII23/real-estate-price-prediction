@@ -15,8 +15,8 @@ Usage:
 import pandas as pd
 from pathlib import Path
 
-from src.preprocessing import data_preparation, data_transformation
-
+from src.preprocessing import data_preparation, data_transformation, feature_engineering
+from src.viz import plotting
 
 # Config
 PROJECT_ROOT = Path('/Users/phillipsmith/Desktop/pythonProjects/real-estate-price-prediction')
@@ -64,6 +64,11 @@ def run_pipeline(verbose: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
         log("      Data is transformed.\n")
 
         print(df_transformed.head())
+
+        # Stage 4: Exploratory Data Analysis
+        log("\n[4/5] PERFORMING EDA...\n")
+        plotting.explore_data(df_transformed)
+        log("      Generated EDA plots. Please see 'docs/eda_*.\n")
 
         # Stage 4: Feature Engineering
         log("\n[4/5] ENGINEERING FEATURES...\n")

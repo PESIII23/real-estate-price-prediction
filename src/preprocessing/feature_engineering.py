@@ -18,5 +18,5 @@ class FeatureEngineer:
 
 def engineer_features(df: pd.DataFrame) -> pd.DataFrame:
     """Apply feature engineering methods to the transformed data source"""
-    transform = FeatureEngineer(df)
-    return transform.get_dataframe()
+    engineer = FeatureEngineer(df)
+    return engineer.get_dataframe()
