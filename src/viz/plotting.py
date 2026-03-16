@@ -51,13 +51,18 @@ class EDA:
     def plot_correlation_matrix(self, remove_cols, subdir="eda_correlations"):
         path = os.path.join(self.parent_path, subdir)
         os.makedirs(path, exist_ok=True)
-        df_correlation = self.df.drop(columns=remove_cols)
-        correlation_matrix = df_correlation.corr()
+        df_correlated = self.df.drop(columns=remove_cols)
+        correlation_matrix = df_correlated.corr()
         plt.figure(figsize=(25, 30))
         sns.heatmap(correlation_matrix, annot=True, cmap='RdYlBu')
         plt.savefig(f"{path}/corr_matrix.png")
         plt.close()
 
+        self.df = df_correlated
+        return self.df
+
+    def get_dataframe(self) -> pd.DataFrame:
+        return self.df
 
 def explore_data(df: pd.DataFrame) -> pd.DataFrame:
     """Generate EDA from the transformed data source"""
@@ -101,3 +106,5 @@ def explore_data(df: pd.DataFrame) -> pd.DataFrame:
             'price_outlier'
         ]
     )
+
+    return explore.get_dataframe()
