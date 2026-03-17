@@ -10,6 +10,12 @@ class TransformData:
 
     def __init__(self, df: pd.DataFrame):
         self.df = df.copy()
+    
+    def encode_one_hot(self, col):
+        """Refactor to encode list of variables"""
+        dummies = pd.get_dummies(self.df[col], prefix=col).astype(int)
+        self.df = self.df.drop(columns=col).merge(dummies, left_index=True, right_index=True)
+        return self.df
 
     def convert_percent_to_decimal(self, percentage_cols):
         self.df[percentage_cols] = self.df[percentage_cols] / 100
@@ -48,6 +54,7 @@ class TransformData:
 def transform_data(df: pd.DataFrame) -> pd.DataFrame:
     """Apply all transformation methods to the cleaned data source"""
     transform = TransformData(df)
+    transform.encode_one_hot(col='radial_highway_access_idx_rad')
     transform.convert_percent_to_decimal(
         percentage_cols=[
             'large_lot_zoning_ratio_zn', 
@@ -73,7 +80,6 @@ def transform_data(df: pd.DataFrame) -> pd.DataFrame:
             'nox_concentration_nox',
             'pre_1940_housing_ratio_age_flip',
             'employment_center_distance_dis',
-            'radial_highway_access_idx_rad',
             'property_tax_rate_tax',
             'pupil_teacher_ratio_ptratio_flip',
             'population_distribution_popul_flip',

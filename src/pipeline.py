@@ -24,6 +24,8 @@ class Paths:
     RAW_PARQUET = PROJECT_ROOT / 'src' / 'data' / 'raw' / 'dataset.parquet'
     # MODELING_DATA = PROJECT_ROOT / 'src' / 'data' / 'processed' / 'modeling_df.parquet'
 
+    pd.set_option('display.max_columns', None)
+
 def run_pipeline(verbose: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
         """
         Execute the full pipeline. Returns (full_df, modeling_df).
@@ -81,8 +83,8 @@ def run_pipeline(verbose: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
         STAGE 5: FEATURE ENGINEERING
         """
         log("\n[5/7] ENGINEERING FEATURES...\n")
-        # full_df, modeling_df = engineer_features(df, n_neighbors=5)
-        # log(f"      Created {len(modeling_df.columns)} features")
+        full_df, modeling_df = engineer_features(df, n_neighbors=5)
+        log(f"      Created {len(modeling_df.columns)} features")
         
         # # Stage 4: Export Modeling Dataframe
         # log("\n[4/5] EXPORTING MODELING DATA...")
