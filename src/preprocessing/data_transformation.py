@@ -26,7 +26,7 @@ class TransformData:
         return self.df
 
     def scale_price(self, price_col):
-        self.df[price_col] = self.df[price_col] * 1000
+        self.df[price_col] = self.df[price_col] * 10000
         return self.df
     
     def reverse_negative_skew(self, flip_cols):
