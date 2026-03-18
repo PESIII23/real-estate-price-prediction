@@ -13,7 +13,7 @@ class TransformData:
     
     def encode_one_hot(self, col):
         """Refactor to encode list of variables"""
-        dummies = pd.get_dummies(self.df[col], prefix=col).astype(int)
+        dummies = pd.get_dummies(self.df[col], prefix='rad').astype(int)
         self.df = self.df.drop(columns=col).merge(dummies, left_index=True, right_index=True)
         return self.df
 
