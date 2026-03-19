@@ -82,9 +82,9 @@ def run_pipeline(verbose: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
         """
         STAGE 5: FEATURE ENGINEERING
         """
-        log("\n[5/7] ENGINEERING FEATURES...\n")
-        full_df, modeling_df = engineer_features(df, n_neighbors=5)
-        log(f"      Created {len(modeling_df.columns)} features")
+        # log("\n[5/7] ENGINEERING FEATURES...\n")
+        # full_df, modeling_df = engineer_features(df, n_neighbors=5)
+        # log(f"      Created {len(modeling_df.columns)} features")
         
         # # Stage 4: Export Modeling Dataframe
         # log("\n[4/5] EXPORTING MODELING DATA...")
