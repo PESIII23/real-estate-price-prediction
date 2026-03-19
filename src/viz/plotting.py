@@ -48,6 +48,22 @@ class EDA:
             plt.savefig(f"{path}/{var}_cnt.png")
             plt.close()
 
+    def plot_scatter_plot(self, vars, subdir="eda_scatter"):
+        path = os.path.join(self.parent_path, subdir)
+        os.makedirs(path, exist_ok=True)
+
+        fig, ax = plt.subplots(figsize=(10,4))
+        for ax in vars:
+            sns.scatterplot(
+            data=self.df,
+            x=ax[0], 
+            y=ax[1],
+            hue=ax[1]
+            )
+
+            plt.savefig(f"{path}/{ax[0]}_scatter.png")
+            plt.close()
+
     def plot_correlation_matrix(self, remove_cols, subdir="eda_correlations"):
         path = os.path.join(self.parent_path, subdir)
         os.makedirs(path, exist_ok=True)
@@ -86,6 +102,21 @@ def explore_data(df: pd.DataFrame) -> pd.DataFrame:
     explore.plot_binary_counts(
         vars_binary=['river_boundary_flag_chas']
     )
+    explore.plot_scatter_plot(
+        vars=[
+            ("crime_rate_per_capita_crim_log", "price"),
+            ("large_lot_zoning_ratio_zn_log", "price"),
+            ("non_retail_acre_ratio_indus_log", "price"),
+            ("nox_concentration_nox_log", "price"),
+            ("avg_rooms_per_dwelling_rm", "price"),
+            ("pre_1940_housing_ratio_age_flip_log", "price"),
+            ("employment_center_distance_dis_log", "price"),
+            ("property_tax_rate_tax_log", "price"),
+            ("pupil_teacher_ratio_ptratio_flip_log", "price"),
+            ("population_distribution_popul_flip_log", "price"),
+            ("low_ses_population_pct_lstat_log", "price")
+        ]
+    )
     explore.plot_correlation_matrix(
         remove_cols=[
             'crime_rate_per_capita_crim', 
@@ -101,8 +132,7 @@ def explore_data(df: pd.DataFrame) -> pd.DataFrame:
             'population_distribution_popul',
             'population_distribution_popul_flip',
             'low_ses_population_pct_lstat',
-            'price_outlier',
-            'price_log'
+            'price_outlier'
         ]
     )
 
