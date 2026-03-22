@@ -100,21 +100,11 @@ def run_pipeline(verbose: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
         log(f"      Exported modeling dataframe with {len(df_modeled.columns)} total features.")
 
         """
-        STAGE 7: APPLY LINEAR REGRESSION TO DATAFRAME
+        STAGE 7: APPLY REGRESSION MODELS TO DATAFRAME
         """
-        log("\n[7/9] APPLYING LINEAR REGRESSION...\n")
+        log("\n[7/9] APPLYING REGRESSION AND EVALUATING MODELS...\n")
         df = pd.read_parquet(Paths.MODELING_DATA, engine='fastparquet')
         regression_models.apply_regression(df)
-
-        """
-        STAGE 8: APPLY _______ TO DATAFRAME
-        """
-        log("\n[8/9] APPLYING _____...\n")
-
-        """
-        STAGE 9: APPLY _______ TO DATAFRAME
-        """
-        log("\n[9/9] APPLYING _____...\n")
         
         """
         FOOTER
