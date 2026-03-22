@@ -11,7 +11,7 @@ import seaborn as sns
 class EDA:
     _logger = logging.getLogger(__name__ + "." + __qualname__)
 
-    def __init__(self, df: pd.DataFrame, parent_path="../../docs/"):
+    def __init__(self, df: pd.DataFrame):
         self.df = df.copy()
         self.parent_path = "/Users/phillipsmith/Desktop/pythonProjects/real-estate-price-prediction/docs"
 

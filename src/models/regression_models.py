@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import logging
 
+from src.viz import model_plots
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression, Lasso, Ridge
 from sklearn.ensemble import RandomForestRegressor
@@ -34,8 +35,9 @@ class Regression:
         print(f"      LINEAR REGRESSION RESULTS:\n")
         print(f"      INTERCEPT: {model.intercept_}")
         print(f"      COEFFICIENTS: {len(model.coef_)}")
-        
-        return y_pred, y_test, X_test, model
+        return y_pred, y_test, X_test, model, X
+    
+    # def random_forest(self, df, )
 
     def print_results(self, y_pred, y_test, X_test, model):
         print(f"      MEAN ABSOLUTE ERROR: {mean_absolute_error(y_test, y_pred)}")
@@ -54,13 +56,18 @@ def apply_regression(df):
         ])
     y = df['price']
 
-    # linear regression
-    y_pred, y_test, X_test, model = regression.linear_regression(X, y)
+    # LINEAR REGRESSION
+    y_pred, y_test, X_test, model, X = regression.linear_regression(X, y)
     regression.print_results(y_pred, y_test, X_test, model)
+    linear_reg_plots = model_plots.ModelPlots(y_pred=y_pred, y_test=y_test, X_test=X_test, X=X)
+    linear_reg_plots.plot_linearity_and_residuals(model="linear_reg")
+    linear_reg_plots.plot_distribution(model="linear_reg")
+    linear_reg_plots.plot_pairplot(model="linear_reg")
 
-    # random forest
+    # RANDOM FOREST
+    # linear_reg_plots.plot_input_with_target("randon_for")
 
-    # lasso regression
+    # LASSO REGRESSION
 
-    # ridge regression
+    # RIDGE REGRESSION
     return

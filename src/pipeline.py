@@ -15,7 +15,7 @@ Usage:
 import pandas as pd
 from pathlib import Path
 from src.preprocessing import data_preparation, data_transformation, feature_engineering
-from src.viz import plotting
+from src.viz import eda, model_plots
 from src.models import regression_models
 
 PROJECT_ROOT = Path('/Users/phillipsmith/Desktop/pythonProjects/real-estate-price-prediction')
@@ -73,7 +73,7 @@ def run_pipeline(verbose: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
         STAGE 4: EXPLORATORY DATA ANALYSIS
         """
         log("\n[4/9] PERFORMING EDA...\n")
-        df_correlated = plotting.explore_data(df_transformed)
+        df_correlated = eda.explore_data(df_transformed)
         log("      Generated EDA plots. Please see docs/eda_*.\n")
 
         """
@@ -111,8 +111,8 @@ def run_pipeline(verbose: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
         """
         log("\n" + "=" * 60)
         log("PIPELINE COMPLETE")
-        log("=" * 60)
-        log(f"Modeling DataFrame: {df_modeled.shape}")
+        log("=" * 60 + '\n')
+        log(f"Modeling DataFrame: {df_modeled.shape}\n")
         
         return
 
