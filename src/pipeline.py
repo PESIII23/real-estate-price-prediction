@@ -22,7 +22,7 @@ PROJECT_ROOT = Path('/Users/phillipsmith/Desktop/pythonProjects/real-estate-pric
 class Paths:
     RAW_FILE = PROJECT_ROOT / 'src' / 'data' / 'raw' / 'Dataset Project 2.xlsx'
     RAW_PARQUET = PROJECT_ROOT / 'src' / 'data' / 'raw' / 'dataset.parquet'
-    # MODELING_DATA = PROJECT_ROOT / 'src' / 'data' / 'processed' / 'modeling_df.parquet'
+    MODELING_DATA = PROJECT_ROOT / 'src' / 'data' / 'processed' / 'modeling_df.parquet'
 
     pd.set_option('display.max_columns', None)
 
@@ -43,17 +43,16 @@ def run_pipeline(verbose: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
         """
         STAGE 1: INGEST DATA
         """
-        log("\n[1/7] LOADING DATA FROM SOURCE FILE...\n")
+        log("\n[1/9] LOADING DATA FROM SOURCE FILE...\n")
         df = pd.read_excel(Paths.RAW_FILE, header=1)
         df.to_parquet(Paths.RAW_PARQUET, engine='fastparquet')
         log(f"      Loaded {len(df):,} records.")
         log(f"      DataFrame shape: {df.shape}\n")
-        print(df.head())
         
         """
         STAGE 2: CLEAN DATA
         """
-        log("\n[2/7] CLEANING DATA...\n")
+        log("\n[2/9] CLEANING DATA...\n")
         df = pd.read_parquet(Paths.RAW_PARQUET, engine='fastparquet')
         df_cleaned = data_preparation.clean_data(df)
         missing = data_preparation.CleanData(df_cleaned).is_missing_vals()
@@ -61,54 +60,66 @@ def run_pipeline(verbose: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
             log("      WARNING: Missing values detected in cleaned data.\n")
             # apply imputation or other missing data approaches
         log(f"      Data is cleaned.\n")
-        print(df_cleaned.describe())
 
         """
         STAGE 3: TRANSFORM DATA
         """
-        log("\n[3/7] TRANSFORMING DATA...\n")
+        log("\n[3/9] TRANSFORMING DATA...\n")
         df_transformed = data_transformation.transform_data(df_cleaned)
         log("      Data is transformed.\n")
-        print(df_transformed.head())
 
         """
         STAGE 4: EXPLORATORY DATA ANALYSIS
         """
-        log("\n[4/7] PERFORMING EDA...\n")
+        log("\n[4/9] PERFORMING EDA...\n")
         df_correlated = plotting.explore_data(df_transformed)
         log("      Generated EDA plots. Please see docs/eda_*.\n")
-        print(df_correlated.columns)
 
         """
         STAGE 5: FEATURE ENGINEERING
         """
-        # log("\n[5/7] ENGINEERING FEATURES...\n")
-        # full_df, modeling_df = engineer_features(df, n_neighbors=5)
-        # log(f"      Created {len(modeling_df.columns)} features")
+        log("\n[5/9] ENGINEERING FEATURES...\n")
+        engineer = feature_engineering.FeatureEngineer(df_correlated, n_splits=10, n_neighbors=10)
         
-        # # Stage 4: Export Modeling Dataframe
-        # log("\n[4/5] EXPORTING MODELING DATA...")
-        # Paths.MODELING_DATA.parent.mkdir(parents=True, exist_ok=True)
-        # modeling_df.to_parquet(Paths.MODELING_DATA, engine='fastparquet', index=False)
+        # get baseline error
+        X = df_correlated.drop(columns='price')
+        y = df_correlated['price']
+        rmse, r2 = engineer.evaluate_error(X, y)
+        print(f"      BASELINE ERROR: RMSE={rmse} --> R^2={r2}")
 
-        # # Stage 5: Apply Logistic Regression
-        # log("\n[5/5] APPLYING LOGISTIC REGRESSION TO MODELING DATA...")
-        # classifier = CreditRiskClassifier(test_size=0.5, random_state=24)
-        # classifier.fit_and_evaluate(modeling_df)
-        # log(f"      Confusion Matrix:\n{classifier.cnf_matrix}")
-        # log(f"      AUC Score: {classifier.get_auc_score():.4f}")
-        # log(f"\n{classifier.get_classification_report()}")
+        # get SFS error and engineered dataframe
+        df_modeled = feature_engineering.engineer_features(df_correlated)
+        log(f"      Created {len(df_modeled.columns) - 1} input features.")
         
-        # # Display plots
-        # classifier.evaluate(plot=True)
-        # classifier.plot_roc_curve()
+        """
+        STAGE 6: EXPORT MODELING DATAFRAME
+        """
+        log("\n[6/9] EXPORTING MODELING DATA...\n")
+        Paths.MODELING_DATA.parent.mkdir(parents=True, exist_ok=True)
+        df_modeled.to_parquet(Paths.MODELING_DATA, engine='fastparquet', index=False)
+        log(f"      Exported modeling dataframe with {len(df_modeled.columns)} features.")
+
+        """
+        STAGE 7: APPLY LINEAR REGRESSION TO DATAFRAME
+        """
+        log("\n[7/9] APPLYING LINEAR REGRESSION...\n")
+
+        """
+        STAGE 8: APPLY _______ TO DATAFRAME
+        """
+        log("\n[8/9] APPLYING _____...\n")
+
+        """
+        STAGE 9: APPLY _______ TO DATAFRAME
+        """
+        log("\n[9/9] APPLYING _____...\n")
+        
         
         # Summary
-        # log("\n" + "=" * 60)
-        # log("PIPELINE COMPLETE")
-        # log("=" * 60)
-        # log(f"\nFull DataFrame:     {full_df.shape}")
-        # log(f"Modeling DataFrame: {modeling_df.shape}")
+        log("\n" + "=" * 60)
+        log("PIPELINE COMPLETE")
+        log("=" * 60)
+        log(f"Modeling DataFrame: {df_modeled.shape}")
         
         return
 
