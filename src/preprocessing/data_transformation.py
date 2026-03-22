@@ -83,7 +83,8 @@ def transform_data(df: pd.DataFrame) -> pd.DataFrame:
             'property_tax_rate_tax',
             'pupil_teacher_ratio_ptratio_flip',
             'population_distribution_popul_flip',
-            'low_ses_population_pct_lstat'
+            'low_ses_population_pct_lstat',
+            'price'
         ]
     )
 

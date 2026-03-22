@@ -55,22 +55,28 @@ Place the source Excel file in src/data/raw/, then open src/notebooks/price_pred
 | Stage | Description |
 |-------|-------------|
 | **1. Data Loading** | Read raw Excel data into a DataFrame |
-| **2. EDA** | Statistical summaries, distributions, correlation analysis |
-| **3. Data Wrangling** | Handle missing values, remove duplicates, remove outliers |
-| **4. Feature Engineering** | Variable selection, X/y separation, scaling/normalization |
-| **5. Modeling** | Train and evaluate Linear Regression, Random Forest, Lasso, Ridge |
-| **6. Evaluation** | Compare models across multiple train/test splits (80/20, 50/50, 95/5) |
+| **2. Data Cleaning** | Standardize column names, handle missing values, and apply initial cleaning |
+| **3. Data Transformation** | Normalize units, apply log transforms, detect and handle outliers |
+| **4. Exploratory Data Analysis (EDA)** | Generate statistical summaries, distribution plots, and correlation analysis |
+| **5. Feature Engineering** | Feature selection (SFS and others), X/y split, scaling, and baseline error check |
+| **6. Export Modeling Data** | Save the engineered DataFrame for modeling |
+| **7. Modeling** | Train and evaluate models (Linear Regression, Random Forest, Lasso, Ridge) |
+| **8. Evaluation & Back-Testing** | Compare models across multiple train/test splits (80/20, 50/50, 95/5), plot residuals, and check for overfitting |
+| **9. Iteration & Interpretation** | Analyze errors, refine features, experiment with advanced models, and summarize results |
 
 ---
 
 ## Key Features
 
-- **Exploratory Data Analysis** – Statistical profiling, distribution plots, correlation heatmaps
-- **Data Wrangling** – NaN removal, outlier detection, duplicate handling
-- **Multiple Models** – Linear Regression, Random Forest, Lasso, Ridge via scikit-learn
-- **Back-Testing** – Model comparison across varying train/test split ratios
-- **Scaling & Normalization** – StandardScaler and MinMaxScaler support
-- **Modular Architecture** – Clean separation across preprocessing, models, and visualization
+- **End-to-End Modular Pipeline** – Clean separation of data cleaning, transformation, EDA, feature engineering, modeling, and evaluation for reproducibility and maintainability
+- **Robust Data Cleaning & Transformation** – Automated column standardization, missing value handling, normalization, log transforms, and outlier detection
+- **Comprehensive EDA** – Statistical summaries, distribution plots, and correlation heatmaps for deep data understanding
+- **Advanced Feature Selection** – Multiple techniques benchmarked (SelectKBest, RFE, Random Forest, SFS), with SFS integrated for optimal performance
+- **Flexible Modeling** – Supports Linear Regression, Random Forest, Lasso, and Ridge, with easy extension to other models
+- **Cross-Validation & Back-Testing** – Consistent use of k-fold CV and multiple train/test splits (80/20, 50/50, 95/5) for robust model comparison
+- **Automated Export** – Engineered features and modeling data are saved for downstream use and reproducibility
+- **Clear Visualizations** – Publication-ready plots for distributions, relationships, and feature importance
+- **Scalable & Extensible** – Designed for easy adaptation to new datasets, features, or modeling approaches
 
 ---
 
@@ -81,6 +87,38 @@ Place the source Excel file in src/data/raw/, then open src/notebooks/price_pred
 - scikit-learn – Modeling, train/test split, scaling
 - matplotlib, seaborn – Visualization
 - openpyxl – Excel file reading
+
+---
+
+## Feature Selection Learnings & Tradeoffs
+
+Throughout the development of this project, several feature selection techniques were evaluated to optimize model performance and interpretability:
+
+- **Univariate Selection (SelectKBest with f_regression):**
+  - Simple and fast, but only captures linear relationships between each feature and the target.
+  - Resulted in higher RMSE and lower R² compared to more advanced methods.
+
+- **Recursive Feature Elimination (RFE):**
+  - Iteratively removes less important features using a base estimator (e.g., linear regression).
+  - Provided some improvement, but was sensitive to collinearity and did not outperform the baseline.
+
+- **Tree-Based Feature Importance (Random Forest):**
+  - Captures non-linear relationships and feature interactions.
+  - Delivered better results than univariate and RFE, but still not optimal for this dataset.
+
+- **Sequential Forward Selection (SFS):**
+  - Wrapper method that iteratively adds features based on model performance improvement (using cross-validated RMSE).
+  - Consistently produced the lowest RMSE and highest R² in notebook experiments.
+  - Able to capture complex, non-linear relationships and feature interactions.
+
+**Tradeoff & Decision:**
+
+After extensive experimentation in the notebook, SFS was chosen for integration into the modular pipeline because it:
+- Provided the best balance of predictive accuracy and feature interpretability.
+- Is robust to multicollinearity and can adapt to different model types.
+- Integrates seamlessly with scikit-learn pipelines and cross-validation, supporting reproducible and automated workflows.
+
+While SFS is more computationally intensive than filter methods, its performance gains and flexibility justified its use as the default feature selection strategy in this project.
 
 ---
 

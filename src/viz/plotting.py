@@ -132,7 +132,8 @@ def explore_data(df: pd.DataFrame) -> pd.DataFrame:
             'population_distribution_popul',
             'population_distribution_popul_flip',
             'low_ses_population_pct_lstat',
-            'price_outlier'
+            'price_outlier',
+            'price_log'
         ]
     )
 
