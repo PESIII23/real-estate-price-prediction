@@ -16,6 +16,7 @@ import pandas as pd
 from pathlib import Path
 from src.preprocessing import data_preparation, data_transformation, feature_engineering
 from src.viz import plotting
+from src.models import regression_models
 
 PROJECT_ROOT = Path('/Users/phillipsmith/Desktop/pythonProjects/real-estate-price-prediction')
 
@@ -80,16 +81,15 @@ def run_pipeline(verbose: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
         """
         log("\n[5/9] ENGINEERING FEATURES...\n")
         engineer = feature_engineering.FeatureEngineer(df_correlated, n_splits=10, n_neighbors=10)
-        
         # get baseline error
         X = df_correlated.drop(columns='price')
         y = df_correlated['price']
         rmse, r2 = engineer.evaluate_error(X, y)
         print(f"      BASELINE ERROR: RMSE={rmse} --> R^2={r2}")
-
         # get SFS error and engineered dataframe
         df_modeled = feature_engineering.engineer_features(df_correlated)
         log(f"      Created {len(df_modeled.columns) - 1} input features.")
+        log(df_modeled.columns)
         
         """
         STAGE 6: EXPORT MODELING DATAFRAME
@@ -97,12 +97,14 @@ def run_pipeline(verbose: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
         log("\n[6/9] EXPORTING MODELING DATA...\n")
         Paths.MODELING_DATA.parent.mkdir(parents=True, exist_ok=True)
         df_modeled.to_parquet(Paths.MODELING_DATA, engine='fastparquet', index=False)
-        log(f"      Exported modeling dataframe with {len(df_modeled.columns)} features.")
+        log(f"      Exported modeling dataframe with {len(df_modeled.columns)} total features.")
 
         """
         STAGE 7: APPLY LINEAR REGRESSION TO DATAFRAME
         """
         log("\n[7/9] APPLYING LINEAR REGRESSION...\n")
+        df = pd.read_parquet(Paths.MODELING_DATA, engine='fastparquet')
+        regression_models.apply_regression(df)
 
         """
         STAGE 8: APPLY _______ TO DATAFRAME
@@ -114,8 +116,9 @@ def run_pipeline(verbose: bool = True) -> tuple[pd.DataFrame, pd.DataFrame]:
         """
         log("\n[9/9] APPLYING _____...\n")
         
-        
-        # Summary
+        """
+        FOOTER
+        """
         log("\n" + "=" * 60)
         log("PIPELINE COMPLETE")
         log("=" * 60)
