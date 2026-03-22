@@ -125,5 +125,5 @@ While SFS is more computationally intensive than filter methods, its performance
 ## Support
 
 - Email: pesmithiii7@gmail.com
-- Documentation: [Milestone 1]() | [Milestone 2]() | [Milestone 3]()
+- Documentation: [Milestone 1](https://docs.google.com/document/d/1YIfU3L_cZWwO6xuu9H6hU3Ew-paQ1hpzIBmXB_s6J4M/edit?usp=sharing) | [Milestone 2]() | [Milestone 3]()
 - Repository: [GitHub](https://github.com/PESIII23/real-estate-price-prediction)
